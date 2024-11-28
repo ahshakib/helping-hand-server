@@ -17,6 +17,7 @@ app.use(require("./routes/category"));
 app.use(require("./routes/slot"));
 app.use(require("./routes/service"));
 app.use(require("./routes/employee"));
+app.use(require("./routes/booking"));
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
