@@ -54,9 +54,19 @@ router.post("/service/generate-details", async (req, res) => {
         const { serviceName } = req.body
         const genAI = new GoogleGenerativeAI(GOOGLE_API_KEY);
         const model = genAI.getGenerativeModel({
-            model: "gemini-1.5-flash",
+            model: "gemini-2.5-flash",
         });
-        const prompt = `Write a detailed and professional description for a service called ${serviceName}`
+        const prompt = `Write a complete and professional service description for a service called "${serviceName}".
+
+Include ALL of the following sections in plain text (no markdown, no bullet points, no special formatting):
+
+1. A brief overview of what the service is and who it is for.
+2. Key features and what is included in this service.
+3. The process or how the service works step by step.
+4. Benefits and why a customer should choose this service.
+5. A short closing statement encouraging the customer to get started.
+
+Write in a warm, professional tone. Keep it between 200-350 words. Do not use any markdown formatting symbols like *, #, or -.`
         const result = await model.generateContent({
             contents: [
               {
@@ -69,8 +79,8 @@ router.post("/service/generate-details", async (req, res) => {
               }
             ],
             generationConfig: {
-              maxOutputTokens: 500,
-              temperature: 2.0,
+              maxOutputTokens: 1500,
+              temperature: 0.7,
             },
           });
           res.json({ details: result.response.text() });
