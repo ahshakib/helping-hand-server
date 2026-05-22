@@ -8,7 +8,11 @@ const { PORT } = process.env;
 
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-app.use(cors());
+app.use(
+  process.env.CLIENT_URL
+    ? cors({ origin: ["http://localhost:3000", process.env.CLIENT_URL] })
+    : cors()
+);
 
 connectDB();
 
